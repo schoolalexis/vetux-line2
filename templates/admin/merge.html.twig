@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vetux Line | Merge{% endblock %}
+
+{% block main %}
+    <section class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <h2 class="mt-n4 mb-4 text-center"><i class="far fa-object-ungroup"></i>&nbsp;Merge</h2>
+                {{ form_start(csvMergeForm) }}
+                    {{ form_row(csvMergeForm.type) }}
+                    {{ form_row(csvMergeForm.csv1) }}
+                    {{ form_row(csvMergeForm.csv2) }}
+                    {{ form_row(csvMergeForm.mergeCsvName) }}
+
+                    <div class="mt-4 text-center">
+                        <button class="btn btn-primary">{{ button_label | default("Download the merge") }}</button>
+                    </div>
+                {{ form_end(csvMergeForm) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

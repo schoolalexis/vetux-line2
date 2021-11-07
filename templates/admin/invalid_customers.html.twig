@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vetux Line | Customers{% endblock %}
+
+{% block main %}
+    <section class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <h2 class="text-center"><i class="fas fa-user-times"></i>&nbsp;Customer(s) with invalid data</h2>
+                <div class="mt-4">
+                    {#  form_errors(csvForm) #}
+                    {{ form_start(csvForm) }}
+                        {{ form_row(csvForm.invalid) }}
+                        {{ form_row(csvForm.csv) }}
+                    <div class="mt-4 mb-4 text-center">
+                        <button class="btn btn-primary">{{ button_label | default("Download Csv") }}</button>
+                    </div>
+                    {{ form_end(csvForm) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

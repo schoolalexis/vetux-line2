@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vetux Line | Show customer(s){% endblock %}
+
+{% block main %}
+    <section class="container-fluid">
+       <div class="row mx-auto">
+
+           <div class="mt-n2">
+               <p class="text-muted">Search customers according to their vehicle marks</p>
+                {{ form_start(searchForm) }}
+                    {{ form_start(searchForm.mark) }}
+                {{ form_end(searchForm) }}
+           </div>
+
+           <div class="text-right col-7 mx-auto">
+               <p>{{ customers | length }} {% if customers | length > 2 %}customers{% else %}customer{% endif %}</p>
+           </div>
+
+           <div class=" mx-auto" id="piechart"></div>
+
+           <div class="col-12 overflow-auto">
+               <table class="table table-bordered text-center">
+                   <thead>
+                   {% for header in headers %}
+                       <th>{{ header }}</th>
+                   {% endfor %}
+                   </thead>
+                   <tbody>
+                   {% for customer in customers | reverse %}
+                       <tr>
+                           <td>{{ customer.id }}</td>
+                           <td>{{ customer.title }}</td>
+                           <td>{{ customer.surname }}</td>
+                           <td>{{ customer.givenName }}</td>
+                           <td>{{ customer.emailAddress }}</td>
+                           <td>{{ customer.birthday }}</td>
+                           <td>{{ customer.telephoneNumber }}</td>
+                           <td>{{ customer.ccType }}</td>
+                           <td>{{ customer.ccNumber }}</td>
+                           <td>{{ customer.cvv2 }}</td>
+                           <td>{{ customer.ccExpires }}</td>
+                           <td>{{ customer.streetAddress }}</td>
+                           <td>{{ customer.city }}</td>
+                           <td>{{ customer.zipCode }}</td>
+                           <td>{{ customer.countryFull }}</td>
+                           <td>{{ customer.centimeters }}</td>
+                           <td>{{ customer.kilograms }}</td>
+                           <td>{{ customer.vehicle.year ~ " " ~ customer.vehicle.mark.name ~ " " ~ customer.vehicle.model }}</td>
+                           <td>{{ customer.latitude }}</td>
+                           <td>{{ customer.longitude }}</td>
+                       </tr>
+                   {% endfor %}
+                   </tbody>
+               </table>
+           </div>
+       </div>
+    </section>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+            // Load google charts
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+
+            // Draw the chart and set the chart values
+            function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['', ''],
+
+                {% for mark in marks %}
+                   ['{{ mark.name }}', {{ mark.vehicles | length }}],
+
+                {% endfor %}
+          ]);
+
+// Optional; add a title and set the width and height of the chart
+var options = {'title':'Mark stats', 'width':300, 'height':300};
+
+// Display the chart inside the <div> element with id="piechart"
+var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+chart.draw(data, options);
+}
+</script>
+{% endblock %}
+
